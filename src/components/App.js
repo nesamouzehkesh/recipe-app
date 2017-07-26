@@ -14,13 +14,18 @@ class App extends React.Component {
         };
 
         this.showCreate = this.showCreate.bind(this);
+        this.handleCreateRecipe = this.handleCreateRecipe.bind(this);
     }
 
     showCreate() {
         this.setState({
             showCreate: true
         });
-}
+    }
+
+    handleCreateRecipe(name, ingredients, instructions) {
+        console.log(name, ingredients, instructions);
+    }
 
     render() {
         return (
@@ -44,7 +49,11 @@ class App extends React.Component {
                     </div>
 
                     <div className="col-xs-8">
-                        {this.state.showCreate ? <CreateForm/> : <RecipeDetail/>}
+                        {this.state.showCreate ?
+                            <CreateForm
+                                onSubmit={this.handleCreateRecipe}
+                            />
+                            : <RecipeDetail/>}
                     </div>
                 </div>
             </div>
