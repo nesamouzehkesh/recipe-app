@@ -91,6 +91,9 @@ class CreateForm extends React.Component {
         );
     }
 }
+CreateForm.propTypes = {
+    onSubmit: React.PropTypes.func.isRequired;
+}
 export default CreateForm;
 
 
