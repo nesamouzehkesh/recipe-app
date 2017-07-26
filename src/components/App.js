@@ -10,11 +10,14 @@ class App extends React.Component {
         super();
 
         this.state = {
-            showCreate: true
+            showCreate: false,
+            recipes: [],
+            selectedRecipe: null,
         };
 
         this.showCreate = this.showCreate.bind(this);
         this.handleCreateRecipe = this.handleCreateRecipe.bind(this);
+        this.handleSelectRecipe = this.handleSelectRecipe.bind(this);
     }
 
     showCreate() {
@@ -24,7 +27,24 @@ class App extends React.Component {
     }
 
     handleCreateRecipe(name, ingredients, instructions) {
-        console.log(name, ingredients, instructions);
+        const newRecipes = this.state.recipes.concat({
+            id: new Date().getTime(),
+            name: name,
+            ingredients: ingredients,
+            instructions: instructions
+        });
+
+        this.setState({
+            recipes: newRecipes
+        })
+    }
+
+    handleSelectRecipe(recipe) {
+        console.log(recipe);
+        this.setState({
+            selectedRecipe: recipe,
+            showCreate: false
+        });
     }
 
     render() {
@@ -45,7 +65,10 @@ class App extends React.Component {
                         >
                             Create New Recipe
                         </button>
-                        <RecipeList/>
+                        <RecipeList
+                            recipes={this.state.recipes}
+                            onSelectRecipe={this.handleSelectRecipe}
+                        />
                     </div>
 
                     <div className="col-xs-8">
@@ -53,7 +76,11 @@ class App extends React.Component {
                             <CreateForm
                                 onSubmit={this.handleCreateRecipe}
                             />
-                            : <RecipeDetail/>}
+                            :
+                            <RecipeDetail
+                                recipe={this.state.selectedRecipe}
+                            />
+                        }
                     </div>
                 </div>
             </div>
