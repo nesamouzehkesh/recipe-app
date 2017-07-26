@@ -10,7 +10,7 @@ class App extends React.Component {
         super();
 
         this.state = {
-            showCreate: false
+            showCreate: true
         };
 
         this.showCreate = this.showCreate.bind(this);
