@@ -16,6 +16,9 @@ class App extends React.Component {
         //get data out of the local storage, (returns string or null)
         const localStorageRecipes = window.localStorage.getItem(LOCAL_STORAGE_KEY);
 
+        /*Always remember you should not immutate any of your states, for example
+        * when deleting an item from recipes array you should seek for ways
+        * to delete it without imutating your sceipes state. */
         this.state = {
             showCreate: false,
             //if any data in local storage then initialize the state with it else an empty array
@@ -26,6 +29,19 @@ class App extends React.Component {
         this.showCreate = this.showCreate.bind(this);
         this.handleCreateRecipe = this.handleCreateRecipe.bind(this);
         this.handleSelectRecipe = this.handleSelectRecipe.bind(this);
+        this.handleDeleteRecipe = this.handleDeleteRecipe.bind(this);
+        this.updateRecipes = this.updateRecipes.bind(this);
+    }
+
+    updateRecipes(newRecipes) {
+        this.setState({
+            recipes: newRecipes
+        });
+        /*we use the localStorage setItem method to store the recipes in our
+         local storage against the key we have specified. Local storage can only
+         store string data so we have to convert our array with JSON.stringify.
+         */
+        window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newRecipes));
     }
 
     showCreate() {
@@ -40,24 +56,24 @@ class App extends React.Component {
             name: name,
             ingredients: ingredients,
             instructions: instructions
-        });
 
-        this.setState({
-            recipes: newRecipes
         });
-
-        /*we use the localStorage setItem method to store the recipes in our
-         local storage against the key we have specified. Local storage can only
-         store string data so we have to convert our array with JSON.stringify.
-          */
-        window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newRecipes));
+        this.updateRecipes(newRecipes); //updates the recipes state and local storage
     }
 
     handleSelectRecipe(recipe) {
-        console.log(recipe);
+        //console.log(recipe);
         this.setState({
             selectedRecipe: recipe,
             showCreate: false
+        });
+    }
+
+    handleDeleteRecipe(recipeToDelete) {
+        const newRecipes = this.state.recipes.filter(recipe => recipe !== recipeToDelete);
+        this.updateRecipes(newRecipes); //updates the recipes state and local storage
+        this.setState({
+            selectedRecipe: null
         });
     }
 
@@ -93,6 +109,7 @@ class App extends React.Component {
                             :
                             <RecipeDetail
                                 recipe={this.state.selectedRecipe}
+                                onDelete={this.handleDeleteRecipe}
                             />
                         }
                     </div>
