@@ -4,14 +4,22 @@ import RecipeDetail from './RecipeDetail';
 import RecipeList from './RecipeList';
 import CreateForm from './CreateForm';
 
+/*every time we update the recipes state we want to write the new
+ data in this local storage.*/
+const LOCAL_STORAGE_KEY = 'recipes';
+
 
 class App extends React.Component {
     constructor() {
         super();
 
+        //get data out of the local storage, (returns string or null)
+        const localStorageRecipes = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+
         this.state = {
             showCreate: false,
-            recipes: [],
+            //if any data in local storage then initialize the state with it else an empty array
+            recipes: localStorageRecipes ? JSON.parse(localStorageRecipes) : [],
             selectedRecipe: null,
         };
 
@@ -36,7 +44,13 @@ class App extends React.Component {
 
         this.setState({
             recipes: newRecipes
-        })
+        });
+
+        /*we use the localStorage setItem method to store the recipes in our
+         local storage against the key we have specified. Local storage can only
+         store string data so we have to convert our array with JSON.stringify.
+          */
+        window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newRecipes));
     }
 
     handleSelectRecipe(recipe) {
