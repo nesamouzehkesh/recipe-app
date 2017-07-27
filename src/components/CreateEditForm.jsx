@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 
-class CreateForm extends React.Component {
+class CreateEditForm extends React.Component {
     constructor() {
         super();
 
@@ -22,8 +22,31 @@ class CreateForm extends React.Component {
         this.handleChangeInstructions = this.handleChangeInstructions.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.resetForm = this.resetForm.bind(this);
+        this.setStateFromRecipe = this.setStateFromRecipe.bind(this);
+        this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
+
     }
 
+    componentDidMount() {
+        //react will automatically call this method when the component is mounted
+        this.setStateFromRecipe(this.props.recipe);
+    }
+
+    /*this will receive the new set of props that the component just received
+    * this is used in situations such as this where you need to compare the props
+    * stored in the component's state with new set of props stored in nextProps and
+    * take appropriate actions based on how they change. */
+    componentWillReceiveProps(nextProps) {
+        this.setStateFromRecipe(nextProps.recipe);
+    }
+
+    setStateFromRecipe(recipe) {
+        this.setState({
+            name: recipe ? recipe.name : '',
+            ingredients: recipe ? recipe.ingredients : '',
+            instructions: recipe ? recipe.instructions : '',
+        });
+    }
     handleChangeName(event) {
         this.setState({
            name: event.target.value
@@ -54,13 +77,17 @@ class CreateForm extends React.Component {
         event.preventDefault();
         const {name, ingredients, instructions} = this.state;
 
-        this.props.onSubmit(name, ingredients, instructions);
-        this.resetForm();
-        this.setState({
-           created: true
-        });
-        this.refs.nameInput.focus();
+        if (this.props.recipe) {
+            this.props.onSave(name, ingredients, instructions);
+        } else {
+            this.props.onCreate(name, ingredients, instructions);
 
+            this.resetForm();
+            this.setState({
+                created: true
+            });
+            this.refs.nameInput.focus();
+        }
     }
 
     render() {
@@ -107,14 +134,20 @@ class CreateForm extends React.Component {
                     />
                 </div>
 
-                <input className="btn btn-primary" type="submit" value="Create"/>
+                <input
+                    className="btn btn-primary"
+                    type="submit"
+                    value={this.props.recipe ? 'Save' : 'Create'}
+                />
             </form>
         );
     }
 }
-CreateForm.propTypes = {
-    onSubmit: React.PropTypes.func.isRequired
+CreateEditForm.propTypes = {
+    onCreate: React.PropTypes.func.isRequired,
+    onSave: React.PropTypes.func.isRequired,
+    recipe: React.PropTypes.object //this cannot be isRequired because react treats null props as if it was not passed in so will throw an error
 };
-export default CreateForm;
+export default CreateEditForm;
 
 

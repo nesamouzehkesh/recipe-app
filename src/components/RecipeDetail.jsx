@@ -3,12 +3,12 @@
 
 import * as React from 'react';
 
-/*this is an arrow function with curly braces {} and an explicit
+/*this is an arrow function w ith curly braces {} and an explicit
 return, we need this to allow us to write some code before returning
 the JSX. If we were not in need of that piece of code here the arrow
 function did not need an explicit return and did not really need the {}
  */
-const RecipeDetail = ({ recipe, onDelete }) => {
+const RecipeDetail = ({  recipe, onDelete, onEdit }) => {
     const confirmDelete = () => {
         if(confirm('Are you sure you want to delete this recipe?')) {
             onDelete(recipe);
@@ -26,12 +26,18 @@ const RecipeDetail = ({ recipe, onDelete }) => {
 
                     <h3>Instructions:</h3>
                     <p>{ recipe.instructions }</p>
-
-                    <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={confirmDelete}
-                    >Delete recipe</button>
+                    <div className="btn-toolbar">
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={confirmDelete}
+                        >Delete recipe</button>
+                        <button
+                            type="button"
+                            className="btn btn-default"
+                            onClick={onEdit}
+                        >Edit recipe</button>
+                    </div>
                 </div>
                 :
                 <div>
@@ -43,7 +49,8 @@ const RecipeDetail = ({ recipe, onDelete }) => {
 };
 RecipeDetail.propTypes = {
     recipe: React.PropTypes.object,
-    onDelete: React.PropTypes.func.isRequired
+    onDelete: React.PropTypes.func.isRequired,
+    onEdit: React.PropTypes.func.isRequired
 }
 export default RecipeDetail;
 

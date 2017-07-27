@@ -2,7 +2,7 @@ import React from 'react';
 
 import RecipeDetail from './RecipeDetail';
 import RecipeList from './RecipeList';
-import CreateForm from './CreateForm';
+import CreateEditForm from './CreateEditForm';
 import SearchBox from './SearchBox';
 
 /*every time we update the recipes state we want to write the new
@@ -19,7 +19,7 @@ class App extends React.Component {
 
         /*Always remember you should not immutate any of your states, for example
         * when deleting an item from recipes array you should seek for ways
-        * to delete it without imutating your sceipes state. */
+        * to delete it without immutating your recipes state. */
         this.state = {
             showCreate: false,
             //if any data in local storage then initialize the state with it else an empty array
@@ -29,11 +29,13 @@ class App extends React.Component {
         };
 
         this.showCreate = this.showCreate.bind(this);
-        this.handleCreateRecipe = this.handleCreateRecipe.bind(this);
+        this.handleRecipeCreated = this.handleRecipeCreated.bind(this);
         this.handleSelectRecipe = this.handleSelectRecipe.bind(this);
         this.handleDeleteRecipe = this.handleDeleteRecipe.bind(this);
         this.updateRecipes = this.updateRecipes.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleRecipeSaved = this.handleRecipeSaved.bind(this);
+        this.handleEditRecipe = this.handleEditRecipe.bind(this);
     }
 
     updateRecipes(newRecipes) {
@@ -49,11 +51,12 @@ class App extends React.Component {
 
     showCreate() {
         this.setState({
-            showCreate: true
+            showCreate: true,
+            selectedRecipe: null,
         });
     }
 
-    handleCreateRecipe(name, ingredients, instructions) {
+    handleRecipeCreated(name, ingredients, instructions) {
         const newRecipes = this.state.recipes.concat({
             id: new Date().getTime(),
             name: name,
@@ -91,6 +94,31 @@ class App extends React.Component {
         });
     }
 
+    handleRecipeSaved(name, ingredients, instructions) {
+        const { recipes, selectedRecipe } = this.state;
+
+        const editedRecipe = Object.assign({}, selectedRecipe, {
+            name,
+            ingredients,
+            instructions
+        });
+
+        const newRecipes = recipes.map(recipe =>
+            recipe === selectedRecipe ? editedRecipe : recipe
+        );
+
+        this.updateRecipes(newRecipes);
+        this.handleSelectRecipe(editedRecipe); /*It is important to pass the
+        editedRecipe here otherwise our selected recipe state will still refer to
+        the unedited recipe. */
+    }
+
+    handleEditRecipe() {
+        this.setState({
+            showCreate: true
+        });
+    }
+
     render() {
         const { recipes, search } = this.state;
 
@@ -100,7 +128,8 @@ class App extends React.Component {
 
         //filters for any similarity of the search state inside recipes state
         const filteredRecipes = recipes
-            .filter(recipe => recipe.name.toLowerCase().indexOf(search.toLowerCase()) > -1);
+            .filter(recipe => recipe.name.toLowerCase().indexOf(search.toLowerCase()) > -1)
+            .sort((a, b) => a.name > b.name);
 
         return (
             <div className="container">
@@ -128,13 +157,16 @@ class App extends React.Component {
 
                     <div className="col-xs-8">
                         {this.state.showCreate ?
-                            <CreateForm
-                                onSubmit={this.handleCreateRecipe}
+                            <CreateEditForm
+                                onCreate={this.handleRecipeCreated}
+                                onSave={this.handleRecipeSaved}
+                                recipe={this.state.selectedRecipe}
                             />
                             :
                             <RecipeDetail
                                 recipe={this.state.selectedRecipe}
                                 onDelete={this.handleDeleteRecipe}
+                                onEdit={this.handleEditRecipe}
                             />
                         }
                     </div>
