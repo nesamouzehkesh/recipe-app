@@ -3,6 +3,7 @@ import React from 'react';
 import RecipeDetail from './RecipeDetail';
 import RecipeList from './RecipeList';
 import CreateForm from './CreateForm';
+import SearchBox from './SearchBox';
 
 /*every time we update the recipes state we want to write the new
  data in this local storage.*/
@@ -24,6 +25,7 @@ class App extends React.Component {
             //if any data in local storage then initialize the state with it else an empty array
             recipes: localStorageRecipes ? JSON.parse(localStorageRecipes) : [],
             selectedRecipe: null,
+            search: '', //the state of the search box
         };
 
         this.showCreate = this.showCreate.bind(this);
@@ -31,6 +33,7 @@ class App extends React.Component {
         this.handleSelectRecipe = this.handleSelectRecipe.bind(this);
         this.handleDeleteRecipe = this.handleDeleteRecipe.bind(this);
         this.updateRecipes = this.updateRecipes.bind(this);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
     }
 
     updateRecipes(newRecipes) {
@@ -77,7 +80,28 @@ class App extends React.Component {
         });
     }
 
+    /*instead of writing the search action in handleSearchChange method and store
+     the filtered results in state (which might be a better approach if the filtering
+     is likely to be slow as we could then be casting the results until next time it changed),
+     we write it inside the render. Because for most applications filtering is gonna be quick enough to just
+     do it in the render method. */
+    handleSearchChange(search) {
+        this.setState({
+            search
+        });
+    }
+
     render() {
+        const { recipes, search } = this.state;
+
+        /* why this does not work?
+        const recipes = {this.state.recipes};
+        const search = {this.state.search}; */
+
+        //filters for any similarity of the search state inside recipes state
+        const filteredRecipes = recipes
+            .filter(recipe => recipe.name.toLowerCase().indexOf(search.toLowerCase()) > -1);
+
         return (
             <div className="container">
                 <h1>Recipe App</h1>
@@ -95,8 +119,9 @@ class App extends React.Component {
                         >
                             Create New Recipe
                         </button>
+                        <SearchBox onChange={this.handleSearchChange}/>
                         <RecipeList
-                            recipes={this.state.recipes}
+                            recipes={filteredRecipes}
                             onSelectRecipe={this.handleSelectRecipe}
                         />
                     </div>
