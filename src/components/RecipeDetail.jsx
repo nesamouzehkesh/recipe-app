@@ -2,6 +2,8 @@
  * this is a stateless component*/
 
 import * as React from 'react';
+import StarRating from 'react-star-rating';
+
 
 /*this is an arrow function w ith curly braces {} and an explicit
 return, we need this to allow us to write some code before returning
@@ -38,6 +40,11 @@ const RecipeDetail = ({  recipe, onDelete, onEdit }) => {
                             onClick={onEdit}
                         >Edit recipe</button>
                     </div>
+                    <br />
+                    <form action="/api" method="POST">
+                        <StarRating name="airbnb-rating" caption="Rate the recipe!" totalStars={5} />
+                        <button type="submit" className="btn btn-default">Submit Rating</button>
+                    </form>
                 </div>
                 :
                 <div>

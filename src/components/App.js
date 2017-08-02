@@ -88,9 +88,9 @@ class App extends React.Component {
      is likely to be slow as we could then be casting the results until next time it changed),
      we write it inside the render. Because for most applications filtering is gonna be quick enough to just
      do it in the render method. */
-    handleSearchChange(search) {
+    handleSearchChange(searchPhrase) {
         this.setState({
-            search
+            search: searchPhrase
         });
     }
 
