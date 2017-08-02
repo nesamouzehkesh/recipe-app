@@ -2,15 +2,27 @@
 * this is a stateless component*/
 
 import * as React from 'react';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import ReactStars from 'react-stars';
+
 
 const RecipeList = (props) => (
-    <ul className="list-unstyled">
+    <ListGroup className="list-unstyled">
         {props.recipes.map(recipe =>
-            <li key={recipe.id}>
-                <a href="#" onClick={props.onSelectRecipe.bind(null, recipe)}>{recipe.name}</a>
-            </li>
+            <div>
+                <ListGroupItem key={recipe.id} bsStyle="info" style={{ display: 'flex'}}>
+                    <a href="#" onClick={props.onSelectRecipe.bind(null, recipe)}>{recipe.name}</a>
+                    <div style={{ marginLeft: 'auto' }}>
+                        <ReactStars
+                            count={5}
+                            size={24}
+                            color2={'#ffd700'}
+                        />
+                    </div>
+                </ListGroupItem>
+            </div>
         )}
-    </ul>
+    </ListGroup>
 )
 
 RecipeList.propTypes = {

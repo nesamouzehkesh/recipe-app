@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "history": "4.2.0",
+    "react-router": "4.0.0-alpha.4",
     "object-assign": "^4.1.1",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.2",
+    "react-browser-router": "^1.0.6",
     "react-confirm": "^0.1.14",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.10",
-    "react-star-rating": "^1.4.2"
+    "react-star-rating": "^1.4.2",
+    "react-stars": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -17,6 +22,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "react-router": "^4.1.2",
     "react-star-rating": "^1.4.2",
     "underscore": "^1.8.3"
   }

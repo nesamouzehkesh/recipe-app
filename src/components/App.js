@@ -4,6 +4,7 @@ import RecipeDetail from './RecipeDetail';
 import RecipeList from './RecipeList';
 import CreateEditForm from './CreateEditForm';
 import SearchBox from './SearchBox';
+import Header from './Header';
 
 /*every time we update the recipes state we want to write the new
  data in this local storage.*/
@@ -36,6 +37,7 @@ class App extends React.Component {
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.handleRecipeSaved = this.handleRecipeSaved.bind(this);
         this.handleEditRecipe = this.handleEditRecipe.bind(this);
+        this.handleHeaderClick = this.handleHeaderClick.bind(this);
     }
 
     updateRecipes(newRecipes) {
@@ -119,6 +121,12 @@ class App extends React.Component {
         });
     }
 
+    handleHeaderClick() {
+        this.setState=({
+           showCreate: false
+        });
+    }
+
     render() {
         const { recipes, search } = this.state;
 
@@ -133,7 +141,7 @@ class App extends React.Component {
 
         return (
             <div className="container">
-                <h1>Recipe App</h1>
+                <Header onHeaderClick={this.handleHeaderClick}/>
 
                 <div className="row">
                     <div className="col-xs-4">

@@ -2,6 +2,7 @@
  * this is a stateless component*/
 
 import * as React from 'react';
+import { Panel, PanelGroup, Accordion } from 'react-bootstrap';
 
 /*this is an arrow function w ith curly braces {} and an explicit
 return, we need this to allow us to write some code before returning
@@ -18,7 +19,7 @@ const RecipeDetail = ({  recipe, onDelete, onEdit }) => {
     return (
         <div>
             { recipe ?
-                <div>
+                <Panel>
                     <h2>{ recipe.name }</h2>
 
                     <h3>Ingredients:</h3>
@@ -38,7 +39,7 @@ const RecipeDetail = ({  recipe, onDelete, onEdit }) => {
                             onClick={onEdit}
                         >Edit recipe</button>
                     </div>
-                </div>
+                </Panel>
                 :
                 <div>
                     Choose a recipe from the left hand side, or create a new one!
