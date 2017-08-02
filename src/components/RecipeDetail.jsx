@@ -2,7 +2,7 @@
  * this is a stateless component*/
 
 import * as React from 'react';
-import { Panel, PanelGroup, Accordion } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 
 /*this is an arrow function w ith curly braces {} and an explicit
 return, we need this to allow us to write some code before returning
@@ -38,6 +38,12 @@ const RecipeDetail = ({  recipe, onDelete, onEdit }) => {
                             className="btn btn-default"
                             onClick={onEdit}
                         >Edit recipe</button>
+                        <span style={{ display: 'flex', flexDirection: 'row-reverse'}}>
+                            <a href="#"><span className="icon fi-social-facebook" style={{ fontSize : '36px', padding: '5px' }}></span></a>
+                            <a href="#"><span className="icon fi-social-twitter" style={{ fontSize : '36px', padding: '5px' }}></span></a>
+                            <a href="#"><span className="icon fi-social-google-plus" style={{ fontSize : '36px', padding: '5px' }}></span></a>
+                            <a href="#"><span className="icon fi-social-youtube" style={{ fontSize : '36px', padding: '5px' }}></span></a>
+                        </span>
                     </div>
                 </Panel>
                 :
