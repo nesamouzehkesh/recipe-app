@@ -38,7 +38,9 @@ class App extends React.Component {
         this.handleRecipeSaved = this.handleRecipeSaved.bind(this);
         this.handleEditRecipe = this.handleEditRecipe.bind(this);
         this.handleHeaderClick = this.handleHeaderClick.bind(this);
+        this.handleRecipeStarEdit = this.handleRecipeStarEdit.bind(this);
     }
+
 
     updateRecipes(newRecipes) {
         this.setState({
@@ -58,12 +60,13 @@ class App extends React.Component {
         });
     }
 
-    handleRecipeCreated(name, ingredients, instructions) {
+    handleRecipeCreated(name, ingredients, instructions, star) {
         const newRecipes = this.state.recipes.concat({
             id: new Date().getTime(),
             name: name,
             ingredients: ingredients,
-            instructions: instructions
+            instructions: instructions,
+            star: star,
 
         });
         this.updateRecipes(newRecipes); //updates the recipes state and local storage
@@ -100,9 +103,9 @@ class App extends React.Component {
         const { recipes, selectedRecipe } = this.state;
 
         const editedRecipe = Object.assign({}, selectedRecipe, {
-            name,
-            ingredients,
-            instructions
+            name: name,
+            ingredients: ingredients,
+            instructions: instructions,
         });
 
         const newRecipes = recipes.map(recipe =>
@@ -125,6 +128,21 @@ class App extends React.Component {
         this.setState=({
            showCreate: false
         });
+    }
+
+    handleRecipeStarEdit(newRating) {
+        const { recipes, selectedRecipe } = this.state;
+
+        const editedRecipe = Object.assign({}, selectedRecipe, {
+            star: newRating
+        });
+
+        const newRecipes = recipes.map(recipe =>
+            recipe === selectedRecipe ? editedRecipe : recipe
+        );
+
+        this.updateRecipes(newRecipes);
+        this.handleSelectRecipe(editedRecipe);
     }
 
     render() {
@@ -175,6 +193,7 @@ class App extends React.Component {
                                 recipe={this.state.selectedRecipe}
                                 onDelete={this.handleDeleteRecipe}
                                 onEdit={this.handleEditRecipe}
+                                onStarEdit={this.handleRecipeStarEdit}
                             />
                         }
                     </div>

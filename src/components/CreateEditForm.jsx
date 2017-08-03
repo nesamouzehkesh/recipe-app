@@ -14,6 +14,7 @@ class CreateEditForm extends React.Component {
             name: '',
             ingredients: '',
             instructions: '',
+            star: 0,
             created: false,
         };
 
@@ -45,6 +46,7 @@ class CreateEditForm extends React.Component {
             name: recipe ? recipe.name : '',
             ingredients: recipe ? recipe.ingredients : '',
             instructions: recipe ? recipe.instructions : '',
+            star: recipe ? recipe.star : 0,
         });
     }
     handleChangeName(event) {
@@ -69,7 +71,8 @@ class CreateEditForm extends React.Component {
         this.setState({
             name: '',
             ingredients: '',
-            instructions: ''
+            instructions: '',
+            star: 0,
         });
     }
 

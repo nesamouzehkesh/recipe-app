@@ -17,6 +17,7 @@ const RecipeList = (props) => (
                             count={5}
                             size={24}
                             color2={'#ffd700'}
+                            value={recipe.star}
                         />
                     </div>
                 </ListGroupItem>
