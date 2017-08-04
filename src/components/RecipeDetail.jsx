@@ -2,7 +2,7 @@
  * this is a stateless component*/
 
 import * as React from 'react';
-import { Panel, PanelGroup } from 'react-bootstrap';
+import { Panel, Pager } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 
 /*this is an arrow function w ith curly braces {} and an explicit
@@ -27,11 +27,11 @@ class RecipeDetail extends React.Component {
 
 
     render() {
-        const { recipe, onEdit, onStarEdit } = this.props;
+        const { recipe, onEdit, onStarEdit, onNextRecipe, onPrevRecipe } = this.props;
         return (
             <div>
                 { recipe ?
-                    <Panel header={<b>{recipe.name}</b>} footer="  ">
+                    <Panel header={<b>{recipe.name}</b>} style={{background: '#f6fcff'}}>
 
                         <Panel>
                             <b>Ingredients:</b>
@@ -41,9 +41,8 @@ class RecipeDetail extends React.Component {
                             <b>Instructions:</b>
                             <p>{ recipe.instructions }</p>
                         </Panel>
-
-
-                        <div className="btn-toolbar">
+                        
+                        <div className="btn-toolbar" style={{ display: 'flex', flexWrap: 'inline-wrap'}}>
                             <button
                                 type="button"
                                 className="btn btn-danger"
@@ -56,26 +55,32 @@ class RecipeDetail extends React.Component {
                                 onClick={onEdit}
                             >Edit recipe
                             </button>
-                            <span style={{display: 'flex', flexDirection: 'row-reverse'}}>
-                            <a href="#"><span className="icon fi-social-facebook"
-                                              style={{fontSize: '36px', padding: '5px'}}></span></a>
-                            <a href="#"><span className="icon fi-social-twitter"
-                                              style={{fontSize: '36px', padding: '5px'}}></span></a>
-                            <a href="#"><span className="icon fi-social-google-plus"
-                                              style={{fontSize: '36px', padding: '5px'}}></span></a>
-                            <a href="#"><span className="icon fi-social-youtube"
-                                              style={{fontSize: '36px', padding: '5px'}}></span></a>
-                        </span>
+                            <div style={{ marginLeft: 'auto', paddingTop: '5px', marginRight: '5px'}}>
                             <ReactStars
                                 count={5}
                                 size={24}
                                 color2={'#ffd700'}
                                 onChange={onStarEdit}
-                            />
+                            /></div>
+                            <div style={{display: 'flex', flexDirection: 'row-reverse', flexWrap: 'wrap'}}>
+                                <a href="#"><span className="icon fi-social-facebook"
+                                                  style={{fontSize: '36px', padding: '5px'}}/></a>
+                                <a href="#"><span className="icon fi-social-twitter"
+                                                  style={{fontSize: '36px', padding: '5px'}}/></a>
+                                <a href="#"><span className="icon fi-social-google-plus"
+                                                  style={{fontSize: '36px', padding: '5px'}}/></a>
+                                <a href="#"><span className="icon fi-social-youtube"
+                                                  style={{fontSize: '36px', padding: '5px'}}/></a>
+                            </div>
                         </div>
-
+                        <div>
+                            <Pager>
+                                <Pager.Item href="#" onClick={onPrevRecipe(recipe)}>Previous</Pager.Item>
+                                {' '}
+                                <Pager.Item href="#" onClick={onNextRecipe(recipe)}>Next</Pager.Item>
+                            </Pager>
+                        </div>
                     </Panel>
-
                     :
                     <div>
                         Choose a recipe from the left hand side, or create a new one!
@@ -90,7 +95,9 @@ RecipeDetail.propTypes = {
     recipe: React.PropTypes.object,
     onDelete: React.PropTypes.func.isRequired,
     onEdit: React.PropTypes.func.isRequired,
-    onStaEdit: React.PropTypes.func.isRequired,
+    onStarEdit: React.PropTypes.func.isRequired,
+    onNextRecipe: React.PropTypes.func.isRequired,
+    onPrevRecipe: React.PropTypes.func.isRequired,
 }
 export default RecipeDetail;
 

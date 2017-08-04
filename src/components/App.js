@@ -39,6 +39,8 @@ class App extends React.Component {
         this.handleEditRecipe = this.handleEditRecipe.bind(this);
         this.handleHeaderClick = this.handleHeaderClick.bind(this);
         this.handleRecipeStarEdit = this.handleRecipeStarEdit.bind(this);
+        this.handleNextRecipe = this.handleNextRecipe.bind(this);
+        this.handlePrevRecipe = this.handlePrevRecipe.bind(this);
     }
 
 
@@ -145,6 +147,21 @@ class App extends React.Component {
         this.handleSelectRecipe(editedRecipe);
     }
 
+    handleNextRecipe(currentRecipe) {
+        const { recipes } = this.state;
+        const currentIndex = recipes.filter((recipe, i) => {
+           if (recipe.name === currentRecipe.name)
+               return i;
+        });
+
+        const nextRecipe = recipes[currentIndex + 1];
+        this.handleSelectRecipe(nextRecipe);
+    }
+
+    handlePrevRecipe(currentRecipe) {
+
+    }
+
     render() {
         const { recipes, search } = this.state;
 
@@ -194,6 +211,8 @@ class App extends React.Component {
                                 onDelete={this.handleDeleteRecipe}
                                 onEdit={this.handleEditRecipe}
                                 onStarEdit={this.handleRecipeStarEdit}
+                                onNextRecipe={this.handleNextRecipe}
+                                onPrevRecipe={this.handlePrevRecipe}
                             />
                         }
                     </div>
