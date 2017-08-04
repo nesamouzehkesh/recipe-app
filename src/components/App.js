@@ -75,7 +75,6 @@ class App extends React.Component {
     }
 
     handleSelectRecipe(recipe) {
-        //console.log(recipe);
         this.setState({
             selectedRecipe: recipe,
             showCreate: false
@@ -148,14 +147,11 @@ class App extends React.Component {
     }
 
     handleNextRecipe(currentRecipe) {
-        const { recipes } = this.state;
-        const currentIndex = recipes.filter((recipe, i) => {
-           if (recipe.name === currentRecipe.name)
-               return i;
-        });
-
-        const nextRecipe = recipes[currentIndex + 1];
-        this.handleSelectRecipe(nextRecipe);
+        console.log(currentRecipe);
+        const {recipes} = this.state;
+        const currentIndex = recipes.findIndex(recipe => recipe.name === currentRecipe.name);
+        const nextIndex = currentIndex + 1;
+        this.handleSelectRecipe(nextIndex);
     }
 
     handlePrevRecipe(currentRecipe) {
