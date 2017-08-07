@@ -148,16 +148,10 @@ class App extends React.Component {
 
     handleNextRecipe(currentRecipe) {
         console.log(currentRecipe);
-        const {recipes} = this.state;
+        const { recipes } = this.state;
         const currentIndex = recipes.findIndex(recipe => recipe.name === currentRecipe.name);
-        const nextIndex = currentIndex + 1;
-        const nextRecipe = recipes.find((recipe, i) => {
-           if((i === nextIndex) && (i + 1)) {
-               return recipe;
-           } else {
-               return currentRecipe;
-           }
-        });
+        const nextIndex = (currentIndex + 1) ? currentIndex + 1 : currentIndex;
+        const nextRecipe = recipes.find((recipe, i) => i === nextIndex);
         console.log(nextRecipe);
     }
 
