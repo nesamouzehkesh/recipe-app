@@ -147,11 +147,13 @@ class App extends React.Component {
     }
 
     handleNextRecipe(currentRecipe) {
-        console.log(currentRecipe);
         const {recipes} = this.state;
         const currentIndex = recipes.findIndex(recipe => recipe.name === currentRecipe.name);
         const nextIndex = currentIndex + 1;
-        this.handleSelectRecipe(nextIndex);
+        const nextRecipe = recipes.filter((recipe, i) => i == nextIndex);
+        console.log(nextRecipe);
+        this.handleSelectRecipe(nextRecipe);
+
     }
 
     handlePrevRecipe(currentRecipe) {
