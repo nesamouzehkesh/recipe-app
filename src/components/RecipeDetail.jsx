@@ -60,6 +60,7 @@ class RecipeDetail extends React.Component {
                                 count={5}
                                 size={24}
                                 color2={'#ffd700'}
+                                value={recipe.star}
                                 onChange={onStarEdit}
                             /></div>
                             <div style={{display: 'flex', flexDirection: 'row-reverse', flexWrap: 'wrap'}}>
