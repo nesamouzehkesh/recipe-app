@@ -6,18 +6,19 @@ import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 
 
-const RecipeList = (props) => (
+const RecipeList = ({ recipes, onSelectRecipe, onStarEdit }) => (
     <ListGroup className="list-unstyled">
-        {props.recipes.map(recipe =>
+        {recipes.map(recipe =>
             <div>
                 <ListGroupItem key={recipe.id} bsStyle="info" style={{ display: 'flex'}}>
-                    <a href="#" onClick={props.onSelectRecipe.bind(null, recipe)}>{recipe.name}</a>
+                    <a href="#" onClick={onSelectRecipe.bind(null, recipe)}>{recipe.name}</a>
                     <div style={{ marginLeft: 'auto' }}>
                         <ReactStars
                             count={5}
                             size={24}
                             color2={'#ffd700'}
                             value={recipe.star}
+                            onChange={onStarEdit}
                         />
                     </div>
                 </ListGroupItem>
@@ -29,6 +30,7 @@ const RecipeList = (props) => (
 RecipeList.propTypes = {
     recipes: React.PropTypes.array.isRequired,
     onSelectRecipe: React.PropTypes.func.isRequired,
+    onStarEdit: React.PropTypes.func.isRequired,
 }
 
 export default RecipeList;

@@ -195,6 +195,7 @@ class App extends React.Component {
                         <RecipeList
                             recipes={filteredRecipes}
                             onSelectRecipe={this.handleSelectRecipe}
+                            onStarEdit={this.handleRecipeStarEdit}
                         />
                     </div>
 
