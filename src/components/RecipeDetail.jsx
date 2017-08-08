@@ -75,9 +75,9 @@ class RecipeDetail extends React.Component {
                         </div>
                         <div>
                             <Pager>
-                                <Pager.Item href="#" onClick={onPrevRecipe(recipe)}>Previous</Pager.Item>
+                                <Pager.Item href="#" onClick={onPrevRecipe.bind(null, recipe)}>Previous</Pager.Item>
                                 {' '}
-                                <Pager.Item href="#" onClick={onNextRecipe(recipe)}>Next</Pager.Item>
+                                <Pager.Item href="#" onClick={onNextRecipe.bind(null, recipe)}>Next</Pager.Item>
                             </Pager>
                         </div>
                     </Panel>
