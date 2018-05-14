@@ -10,7 +10,7 @@ const RecipeList = ({ recipes, onSelectRecipe, onStarEdit }) => (
     <ListGroup className="list-unstyled">
         {recipes.map(recipe =>
             <div>
-                <ListGroupItem key={recipe.id} bsStyle="info" style={{ display: 'flex'}}>
+                <ListGroupItem key={recipe.id} bsStyle="info" style={{ display: 'flex' }}>
                     <a href="#" onClick={onSelectRecipe.bind(null, recipe)}>{recipe.name}</a>
                     <div style={{ marginLeft: 'auto' }}>
                         <ReactStars
@@ -18,7 +18,7 @@ const RecipeList = ({ recipes, onSelectRecipe, onStarEdit }) => (
                             size={24}
                             color2={'#ffd700'}
                             value={recipe.star}
-                            onChange={onStarEdit}
+                            onChange={onStarEdit(recipe.id)}
                         />
                     </div>
                 </ListGroupItem>

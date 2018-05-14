@@ -5,6 +5,8 @@
 
 
 import * as React from 'react';
+import ReactStars from 'react-stars';
+
 
 class CreateEditForm extends React.Component {
     constructor() {
@@ -51,7 +53,7 @@ class CreateEditForm extends React.Component {
     }
     handleChangeName(event) {
         this.setState({
-           name: event.target.value
+            name: event.target.value
         });
     }
 
@@ -78,17 +80,16 @@ class CreateEditForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const {name, ingredients, instructions} = this.state;
+        const { name, ingredients, instructions, star, created } = this.state;
 
         if (this.props.recipe) {
-            this.props.onSave(name, ingredients, instructions);
+            this.props.onSave(name, ingredients, instructions, star);
         } else {
-            this.props.onCreate(name, ingredients, instructions);
-
-            this.resetForm();
             this.setState({
                 created: true
             });
+            this.props.onCreate(name, ingredients, instructions, star, created);
+            this.resetForm();
             this.refs.nameInput.focus();
         }
     }
@@ -96,9 +97,6 @@ class CreateEditForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                {this.state.created && <div className="alert alert-success">
-                    Your recipe was created!
-                </div>}
                 <div className="form-group">
                     <label htmlFor="name">Recipe name:</label>
                     <input
@@ -134,6 +132,15 @@ class CreateEditForm extends React.Component {
                         placeholder="Enter instructions here, one step per line"
                         value={this.state.instructions}
                         onChange={this.handleChangeInstructions}
+                    />
+                </div>
+                <div className="form-group" style={{ marginLeft: 'auto' }}>
+                    <ReactStars
+                        count={5}
+                        size={24}
+                        color2={'#ffd700'}
+                        value={this.state.star}
+                        onChange={this.props.handleRecipeStarEdit}
                     />
                 </div>
 

@@ -27,11 +27,11 @@ class RecipeDetail extends React.Component {
 
 
     render() {
-        const { recipe, onEdit, onStarEdit, onNextRecipe, onPrevRecipe } = this.props;
+        const { recipe, onEdit, onStarEdit, onNextRecipe, onPrevRecipe, showCreatedMessage } = this.props;
         return (
             <div>
-                { recipe ?
-                    <Panel header={<b>{recipe.name}</b>} style={{background: '#f6fcff'}}>
+                {recipe ?
+                    <Panel header={<b>{recipe.name}</b>} style={{ background: '#f6fcff' }}>
 
                         <Panel>
                             <b>Ingredients:</b>
@@ -39,10 +39,10 @@ class RecipeDetail extends React.Component {
                         </Panel>
                         <Panel>
                             <b>Instructions:</b>
-                            <p>{ recipe.instructions }</p>
+                            <p>{recipe.instructions}</p>
                         </Panel>
-                        
-                        <div className="btn-toolbar" style={{ display: 'flex', flexWrap: 'inline-wrap'}}>
+
+                        <div className="btn-toolbar" style={{ display: 'flex', flexWrap: 'inline-wrap' }}>
                             <button
                                 type="button"
                                 className="btn btn-danger"
@@ -55,23 +55,23 @@ class RecipeDetail extends React.Component {
                                 onClick={onEdit}
                             >Edit recipe
                             </button>
-                            <div style={{ marginLeft: 'auto', paddingTop: '5px', marginRight: '5px'}}>
-                            <ReactStars
-                                count={5}
-                                size={24}
-                                color2={'#ffd700'}
-                                value={recipe.star}
-                                onChange={onStarEdit}
-                            /></div>
-                            <div style={{display: 'flex', flexDirection: 'row-reverse', flexWrap: 'wrap'}}>
+                            <div style={{ marginLeft: 'auto', paddingTop: '5px', marginRight: '5px' }}>
+                                <ReactStars
+                                    count={5}
+                                    size={24}
+                                    color2={'#ffd700'}
+                                    value={recipe.star}
+                                    onChange={onStarEdit}
+                                /></div>
+                            <div style={{ display: 'flex', flexDirection: 'row-reverse', flexWrap: 'wrap' }}>
                                 <a href="#"><span className="icon fi-social-facebook"
-                                                  style={{fontSize: '36px', padding: '5px'}}/></a>
+                                    style={{ fontSize: '36px', padding: '5px' }} /></a>
                                 <a href="#"><span className="icon fi-social-twitter"
-                                                  style={{fontSize: '36px', padding: '5px'}}/></a>
+                                    style={{ fontSize: '36px', padding: '5px' }} /></a>
                                 <a href="#"><span className="icon fi-social-google-plus"
-                                                  style={{fontSize: '36px', padding: '5px'}}/></a>
+                                    style={{ fontSize: '36px', padding: '5px' }} /></a>
                                 <a href="#"><span className="icon fi-social-youtube"
-                                                  style={{fontSize: '36px', padding: '5px'}}/></a>
+                                    style={{ fontSize: '36px', padding: '5px' }} /></a>
                             </div>
                         </div>
                         <div>
@@ -82,9 +82,14 @@ class RecipeDetail extends React.Component {
                             </Pager>
                         </div>
                     </Panel>
-                    :
-                    <div>
-                        Choose a recipe from the left hand side, or create a new one!
+                    : showCreatedMessage ?
+
+                        <div className="alert alert-success">
+                            Your recipe was created!
+                </div> :
+
+                        <div>
+                            Choose a recipe from the left hand side, or create a new one!
                     </div>
                 }
             </div>

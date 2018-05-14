@@ -27,6 +27,7 @@ class App extends React.Component {
             recipes: localStorageRecipes ? JSON.parse(localStorageRecipes) : [],
             selectedRecipe: null,
             search: '', //the state of the search box
+            showCreatedMessage: false
         };
 
         this.showCreate = this.showCreate.bind(this);
@@ -46,7 +47,8 @@ class App extends React.Component {
 
     updateRecipes(newRecipes) {
         this.setState({
-            recipes: newRecipes
+            recipes: newRecipes,
+            showCreate: false,
         });
         /*we use the localStorage setItem method to store the recipes in our
          local storage against the key we have specified. Local storage can only
@@ -62,14 +64,14 @@ class App extends React.Component {
         });
     }
 
-    handleRecipeCreated(name, ingredients, instructions, star) {
+    handleRecipeCreated(name, ingredients, instructions, star, created) {
         const newRecipes = this.state.recipes.concat({
             id: new Date().getTime(),
             name: name,
             ingredients: ingredients,
             instructions: instructions,
             star: star,
-
+            showCreatedMessage: created ? true : false
         });
         this.updateRecipes(newRecipes); //updates the recipes state and local storage
     }
@@ -126,24 +128,25 @@ class App extends React.Component {
     }
 
     handleHeaderClick() {
-        this.setState=({
-           showCreate: false
+        this.setState = ({
+            showCreate: false
         });
     }
 
-    handleRecipeStarEdit(newRating) {
-        const { recipes, selectedRecipe } = this.state;
+    handleRecipeStarEdit(recipeId) {
+        return (newRating) => {
+            const { recipes } = this.state;
 
-        const editedRecipe = Object.assign({}, selectedRecipe, {
-            star: newRating
-        });
+            const updatedRecipes = recipes.map(recipe => {
+                if (recipe.id === recipeId) {
+                    recipe.star = newRating;
+                }
 
-        const newRecipes = recipes.map(recipe =>
-            recipe === selectedRecipe ? editedRecipe : recipe
-        );
+                return recipe;
+            });
 
-        this.updateRecipes(newRecipes);
-        this.handleSelectRecipe(editedRecipe);
+            this.setState({ recipes: updatedRecipes });
+        }
     }
 
     handleNextRecipe(currentRecipe) {
@@ -165,10 +168,6 @@ class App extends React.Component {
     render() {
         const { recipes, search } = this.state;
 
-        /* why this does not work?
-        const recipes = {this.state.recipes};
-        const search = {this.state.search}; */
-
         //filters for any similarity of the search state inside recipes state
         const filteredRecipes = recipes
             .filter(recipe => recipe.name.toLowerCase().indexOf(search.toLowerCase()) > -1)
@@ -176,7 +175,7 @@ class App extends React.Component {
 
         return (
             <div className="container">
-                <Header onHeaderClick={this.handleHeaderClick}/>
+                <Header onHeaderClick={this.handleHeaderClick} />
 
                 <div className="row">
                     <div className="col-xs-4">
@@ -191,7 +190,7 @@ class App extends React.Component {
                         >
                             Create New Recipe
                         </button>
-                        <SearchBox onChange={this.handleSearchChange}/>
+                        <SearchBox onChange={this.handleSearchChange} />
                         <RecipeList
                             recipes={filteredRecipes}
                             onSelectRecipe={this.handleSelectRecipe}
@@ -205,10 +204,12 @@ class App extends React.Component {
                                 onCreate={this.handleRecipeCreated}
                                 onSave={this.handleRecipeSaved}
                                 recipe={this.state.selectedRecipe}
+                                onStarEdit={this.handleRecipeStarEdit}
                             />
                             :
                             <RecipeDetail
                                 recipe={this.state.selectedRecipe}
+                                showCreatedMessage={this.state.showCreatedMessage}
                                 onDelete={this.handleDeleteRecipe}
                                 onEdit={this.handleEditRecipe}
                                 onStarEdit={this.handleRecipeStarEdit}
