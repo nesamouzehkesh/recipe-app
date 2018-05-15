@@ -69,6 +69,12 @@ class CreateEditForm extends React.Component {
         });
     }
 
+    handleChangeStar = (newRating) => {
+        this.setState({
+            star: newRating
+        });
+    }
+
     resetForm() {
         this.setState({
             name: '',
@@ -140,7 +146,7 @@ class CreateEditForm extends React.Component {
                         size={24}
                         color2={'#ffd700'}
                         value={this.state.star}
-                        onChange={this.props.handleRecipeStarEdit}
+                        onChange={this.handleChangeStar}
                     />
                 </div>
 
