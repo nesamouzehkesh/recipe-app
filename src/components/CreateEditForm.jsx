@@ -1,12 +1,6 @@
-/*for passing the values entered in our form we are not going to use the
-* refs, because it is not efficient, rather we are going to store them into
-* states...please study about imperative vs. declarative! In this component
-* you use states to control the form behaviour*/
-
 
 import * as React from 'react';
 import ReactStars from 'react-stars';
-
 
 class CreateEditForm extends React.Component {
     constructor() {
@@ -27,11 +21,9 @@ class CreateEditForm extends React.Component {
         this.resetForm = this.resetForm.bind(this);
         this.setStateFromRecipe = this.setStateFromRecipe.bind(this);
         this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
-
     }
 
     componentDidMount() {
-        //react will automatically call this method when the component is mounted
         this.setStateFromRecipe(this.props.recipe);
     }
 

@@ -1,15 +1,8 @@
-/*this is not a class-based component, its syntax is simpler,
- * this is a stateless component*/
 
 import * as React from 'react';
 import { Panel, Pager } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 
-/*this is an arrow function w ith curly braces {} and an explicit
-return, we need this to allow us to write some code before returning
-the JSX. If we were not in need of that piece of code here the arrow
-function did not need an explicit return and did not really need the {}
- */
 class RecipeDetail extends React.Component {
     constructor() {
         super();
@@ -17,14 +10,12 @@ class RecipeDetail extends React.Component {
         this.confirmDelete = this.confirmDelete.bind(this);
     }
 
-
     confirmDelete() {
         const { recipe, onDelete } = this.props;
         if (confirm('Are you sure you want to delete this recipe?')) {
             onDelete(recipe);
         }
     };
-
 
     render() {
         const { recipe, onEdit, onStarEdit, onNextRecipe, onPrevRecipe, showCreatedMessage } = this.props;

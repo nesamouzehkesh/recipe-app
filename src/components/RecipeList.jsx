@@ -1,5 +1,3 @@
-/*this is not a class-based component, its syntax is simpler,
-* this is a stateless component*/
 
 import * as React from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
@@ -35,8 +33,3 @@ RecipeList.propTypes = {
 
 export default RecipeList;
 
-/*
-* someone tell me why if I write it this way: onClick={props.onSelectRecipe(recipe)}
-* the onClick function invokes even before the link is cliked? Test it with a
-* console log to see...
-* */
