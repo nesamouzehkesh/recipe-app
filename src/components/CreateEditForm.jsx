@@ -7,6 +7,7 @@ class CreateEditForm extends React.Component {
         super();
 
         this.state = {
+            id: '',
             name: '',
             ingredients: '',
             instructions: '',
@@ -37,6 +38,7 @@ class CreateEditForm extends React.Component {
 
     setStateFromRecipe(recipe) {
         this.setState({
+            id: recipe ? recipe.id : '',
             name: recipe ? recipe.name : '',
             ingredients: recipe ? recipe.ingredients : '',
             instructions: recipe ? recipe.instructions : '',
@@ -69,6 +71,7 @@ class CreateEditForm extends React.Component {
 
     resetForm() {
         this.setState({
+            id: '',
             name: '',
             ingredients: '',
             instructions: '',
@@ -78,15 +81,15 @@ class CreateEditForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { name, ingredients, instructions, star, created } = this.state;
+        const { id, name, ingredients, instructions, star, created } = this.state;
 
         if (this.props.recipe) {
-            this.props.onSave(name, ingredients, instructions, star);
+            this.props.onSave(id, name, ingredients, instructions, star);
         } else {
             this.setState({
                 created: true
             });
-            this.props.onCreate(name, ingredients, instructions, star, created);
+            this.props.onCreate(id, name, ingredients, instructions, star, created);
             this.resetForm();
             this.refs.nameInput.focus();
         }

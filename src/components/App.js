@@ -6,27 +6,19 @@ import CreateEditForm from './CreateEditForm';
 import SearchBox from './SearchBox';
 import Header from './Header';
 
-/*every time we update the recipes state we want to write the new
- data in this local storage.*/
 const LOCAL_STORAGE_KEY = 'recipes';
-
 
 class App extends React.Component {
     constructor() {
         super();
 
-        //get data out of the local storage, (returns string or null)
         const localStorageRecipes = window.localStorage.getItem(LOCAL_STORAGE_KEY);
 
-        /*Always remember you should not immutate any of your states, for example
-        * when deleting an item from recipes array you should seek for ways
-        * to delete it without immutating your recipes state. */
         this.state = {
             showCreate: false,
-            //if any data in local storage then initialize the state with it else an empty array
             recipes: localStorageRecipes ? JSON.parse(localStorageRecipes) : [],
             selectedRecipe: null,
-            search: '', //the state of the search box
+            search: '',
             showCreatedMessage: false
         };
 
@@ -64,7 +56,23 @@ class App extends React.Component {
         });
     }
 
-    handleRecipeCreated(name, ingredients, instructions, star, created) {
+    handleRecipeSaved(id, name, ingredients, instructions, star) {
+        const { recipes, selectedRecipe } = this.state;
+        const editedRecipe = Object.assign({}, selectedRecipe, {
+            id: id,
+            name: name,
+            ingredients: ingredients,
+            instructions: instructions,
+            star: star
+        });
+        const newRecipes = recipes.map(recipe =>
+            recipe === selectedRecipe ? editedRecipe : recipe
+        );
+        this.updateRecipes(newRecipes);
+        this.handleSelectRecipe(editedRecipe);
+    }
+
+    handleRecipeCreated(id, name, ingredients, instructions, star, created) {
         const newRecipes = this.state.recipes.concat({
             id: new Date().getTime(),
             name: name,
@@ -72,7 +80,7 @@ class App extends React.Component {
             instructions: instructions,
             star: star,
         });
-        this.updateRecipes(newRecipes); //updates the recipes state and local storage
+        this.updateRecipes(newRecipes);
         this.setState({
             showCreatedMessage: true
         })
@@ -87,41 +95,16 @@ class App extends React.Component {
 
     handleDeleteRecipe(recipeToDelete) {
         const newRecipes = this.state.recipes.filter(recipe => recipe !== recipeToDelete);
-        this.updateRecipes(newRecipes); //updates the recipes state and local storage
+        this.updateRecipes(newRecipes);
         this.setState({
             selectedRecipe: null
         });
     }
 
-    /*instead of writing the search action in handleSearchChange method and store
-     the filtered results in state (which might be a better approach if the filtering
-     is likely to be slow as we could then be casting the results until next time it changed),
-     we write it inside the render. Because for most applications filtering is gonna be quick enough to just
-     do it in the render method. */
     handleSearchChange(searchPhrase) {
         this.setState({
             search: searchPhrase
         });
-    }
-
-    handleRecipeSaved(name, ingredients, instructions, star) {
-        const { recipes, selectedRecipe } = this.state;
-
-        const editedRecipe = Object.assign({}, selectedRecipe, {
-            name: name,
-            ingredients: ingredients,
-            instructions: instructions,
-            star: star
-        });
-
-        const newRecipes = recipes.map(recipe =>
-            recipe === selectedRecipe ? editedRecipe : recipe
-        );
-
-        this.updateRecipes(newRecipes);
-        this.handleSelectRecipe(editedRecipe); /*It is important to pass the
-        editedRecipe here otherwise our selected recipe state will still refer to
-        the unedited recipe. */
     }
 
     handleEditRecipe() {
@@ -169,7 +152,6 @@ class App extends React.Component {
     render() {
         const { recipes, search } = this.state;
 
-        //filters for any similarity of the search state inside recipes state
         const filteredRecipes = recipes
             .filter(recipe => recipe.name.toLowerCase().indexOf(search.toLowerCase()) > -1)
             .sort((a, b) => a.name > b.name);
