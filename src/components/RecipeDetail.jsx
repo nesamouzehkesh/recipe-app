@@ -61,7 +61,7 @@ class RecipeDetail extends React.Component {
                                     size={24}
                                     color2={'#ffd700'}
                                     value={recipe.star}
-                                    onChange={onStarEdit}
+                                    onChange={onStarEdit(recipe.id)}
                                 /></div>
                             <div style={{ display: 'flex', flexDirection: 'row-reverse', flexWrap: 'wrap' }}>
                                 <a href="#"><span className="icon fi-social-facebook"

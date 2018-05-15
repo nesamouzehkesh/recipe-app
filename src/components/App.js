@@ -102,13 +102,14 @@ class App extends React.Component {
         });
     }
 
-    handleRecipeSaved(name, ingredients, instructions) {
+    handleRecipeSaved(name, ingredients, instructions, star) {
         const { recipes, selectedRecipe } = this.state;
 
         const editedRecipe = Object.assign({}, selectedRecipe, {
             name: name,
             ingredients: ingredients,
             instructions: instructions,
+            star: star
         });
 
         const newRecipes = recipes.map(recipe =>
@@ -136,16 +137,14 @@ class App extends React.Component {
     handleRecipeStarEdit(recipeId) {
         return (newRating) => {
             const { recipes } = this.state;
-
             const updatedRecipes = recipes.map(recipe => {
                 if (recipe.id === recipeId) {
                     recipe.star = newRating;
                 }
-
                 return recipe;
             });
-
             this.setState({ recipes: updatedRecipes });
+            this.updateRecipes(updatedRecipes);
         }
     }
 
