@@ -71,9 +71,11 @@ class App extends React.Component {
             ingredients: ingredients,
             instructions: instructions,
             star: star,
-            showCreatedMessage: created ? true : false
         });
         this.updateRecipes(newRecipes); //updates the recipes state and local storage
+        this.setState({
+            showCreatedMessage: true
+        })
     }
 
     handleSelectRecipe(recipe) {

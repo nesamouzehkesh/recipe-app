@@ -86,11 +86,11 @@ class RecipeDetail extends React.Component {
 
                         <div className="alert alert-success">
                             Your recipe was created!
-                </div> :
-
+                        </div>
+                        :
                         <div>
                             Choose a recipe from the left hand side, or create a new one!
-                    </div>
+                        </div>
                 }
             </div>
         );
