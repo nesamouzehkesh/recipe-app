@@ -12,7 +12,8 @@ class RecipeDetail extends React.Component {
 
     confirmDelete() {
         const { recipe, onDelete } = this.props;
-        if (confirm('Are you sure you want to delete this recipe?')) {
+        /* eslint-disable */
+        if (confirm('Are you sure you want to delete this recipe?')) { // eslint-disable-line
             onDelete(recipe);
         }
     };
