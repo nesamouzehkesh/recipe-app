@@ -1,19 +1,34 @@
+
 # Recipe App!
 
-This is a simple application written in React/ES6 which works with your local storage. It 
-is a good demonstration of stateless components as well as class based components with state. 
-It is a simple CRUD application. To start working with the app try adding some recipes to the list, the app will save them in your local storage. 
+##### A single page app written in `react` which works with your local storage.
 
-## To run:
+## Tools:
+* react, react-dom, react-bootstrap, react-stars
+* based on a work by: Tom Duncalf (React Projects by Packt Publishing)
 
-	* clone the project
-	* from inside the directory: 	
-		- npm install
-		- npm start
+## How it's been written?
+* simple inline styling by `react-bootstrap`
+* basic type checking
+* basic routing
+* no redux
+* uses local storage 
 
-If there is an error in regard to `confirm` used as a restricted global:
-go to your `<your project directory>/node_modules/eslint-config-react-app/index.js` 
-and comment out the `confirm` from your `restrictedGlobals`. 
+## App features:
+* Add new recipes
+* List your recipes
+* Search through
+* Edit an existing one
+* Delete one
+* Move back and forth
+* Star a recipe
+
+## How to run?
+* npm install
+* npm start
+* localhost:3000
+
+## Simple demo:
 
 
-Enjoy!
+# Enjoy! 
